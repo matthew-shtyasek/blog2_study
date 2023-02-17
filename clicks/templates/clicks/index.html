@@ -1,0 +1,48 @@
+{% load static %}
+
+<html>
+
+    <head>
+        <title>Clicks</title>
+        <script src='{% static "js/jquery.js"%}'></script>
+        <script>
+            $( document ).ready( function () {
+                $('.send').click(function (e) {
+                    e.preventDefault();
+                    
+                    $.ajax({
+                        url: '{% url 'clicks:clicks' %} ?clicks=' + $("#count_clicks").val(),
+                        type: 'GET',
+                        dataType: 'json',
+                        success: (data) => {
+                            alert('всё сохранилось');
+                        },
+                        error: (error) => {
+                            alert("ошибка" + error)
+                        }
+                    });
+                });
+            });
+            
+            
+            
+            let clicks = 0;
+            
+            function countClicks() {
+                clicks++;
+                $('#count_clicks').val(clicks);
+            }
+        </script>
+    </head>
+
+    <body>
+        <button onclick='countClicks()'>Click!</button>
+        <form method='get' action='.'>
+            {% csrf_token %}
+            <input name='clicks' id='count_clicks' value='0'>
+            <input class='send' type='submit' value='Send!'>
+        </form>
+        <p>Сохранённые клики: {{clicks}}</p>
+    </body>
+
+</html>
