@@ -1,0 +1,32 @@
+<html>
+<head>
+    <title>MyBlog</title>
+</head>
+
+<body>
+<ul class="ps-3 list-unstyled pe-3">
+{% for post in page_object %}
+    <li>
+    <div class="d-inline-flex border" style="padding: 10px 0px 0px 10px;">
+        <div class="ms-3 mt-0">
+                <p class="fs-2">{{ post.title }}</p>
+            <p class="ps-3 pt-0 fs-3">{{ post.text|truncatechars:128 }}</p>
+        </div>
+    </div>
+    </li>
+{% endfor %}
+</ul>
+<div>
+    <a href='?page={{ 1 }}'>&laquo;</a>
+    {% for page_number in page_object.paginator.page_range %}
+        {% if page_number != page_object.number %}
+            <a href='?page={{ page_number }}'>{{ page_number }}</a>
+        {% else %}
+            {{ page_number }}    
+        {% endif %}
+    {% endfor %}
+    <a href='?page={{page_object.paginator.num_pages}}'>&raquo;</a>
+</div>
+</body>
+
+</html>
